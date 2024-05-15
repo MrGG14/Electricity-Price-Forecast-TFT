@@ -1,0 +1,470 @@
+---
+title: "ARIMA ANALISIS"
+author: "Nicolas Vega Munoz"
+date: "2024-04-10"
+output:
+  pdf_document: default
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+
+```
+
+# Análisis de Series Temporales con ARIMA
+
+El análisis de series temporales es una técnica fundamental en el campo de la estadística y la ciencia de datos, especialmente en situaciones donde los datos están correlacionados en el tiempo. En este documento, exploraremos el modelado de series temporales utilizando el método ARIMA (Autoregressive Integrated Moving Average).
+
+El objetivo principal de este análisis es desarrollar un modelo predictivo robusto que pueda capturar y predecir patrones en los datos de una serie temporal específica. Utilizaremos datos históricos de precios SPOT, los cuales están sujetos a fluctuaciones estacionales y estocásticas, lo que los hace adecuados para el modelado con ARIMA.
+
+A lo largo de este informe, abordaremos los siguientes pasos:
+
+1. **Preparación de datos**: Cargaremos y preprocesaremos los datos de la serie temporal, asegurándonos de que estén en un formato adecuado para el modelado.
+   
+2. **Diagnóstico de estacionalidad y tendencia**: Analizaremos la serie temporal para identificar componentes de tendencia y estacionalidad, lo que nos permitirá seleccionar los parámetros apropiados para el modelo ARIMA.
+   
+3. **Ajuste de modelos ARIMA**: Ajustaremos varios modelos ARIMA a los datos, utilizando diferentes configuraciones de parámetros para encontrar el modelo que mejor se ajuste a la serie temporal.
+
+4. **Evaluación del modelo**: Evaluaremos el desempeño de los modelos ARIMA utilizando métricas de evaluación adecuadas, como el error cuadrático medio (MSE) y el error absoluto medio (MAE).
+
+5. **Selección del mejor modelo**: Basándonos en las métricas de evaluación y en el diagnóstico de los residuos, seleccionaremos el modelo ARIMA más adecuado para realizar predicciones futuras.
+
+A lo largo de este proceso, nos centraremos en aplicar los conceptos teóricos detrás del modelo ARIMA, así como en utilizar herramientas prácticas de programación en R para implementar y evaluar los modelos. Este análisis nos proporcionará información valiosa sobre la dinámica subyacente de la serie temporal estudiada y nos permitirá realizar predicciones precisas.
+
+```{r}
+library(readxl)
+library(forecast)   
+library(dplyr)
+library(tseries)
+library(lmtest)
+library(ggplot2)
+
+
+```
+
+```{r}
+data <- read_excel("C:/Users/nicov/Desktop/TFG_code_local/src/datasets/dataset_input_v1.xlsx")
+data[data < 0] <- 0
+
+validation_days= 15
+test_days = 7
+```
+En primer lugar leemos nuestro dataset y configuramos el numero de días que usaremos para test. Puesto que disponemos de un histórico grande con datos muy alejados de los valores actuales decidimos entrenar el modelo con datos a partir de este año 2024.
+```{r}
+# Filtrar los datos a partir de 2024
+data_filtrada <- data %>%
+  filter(fechaHora >= as.POSIXct("2024-01-01"))
+
+data_filtrada <- data_filtrada[complete.cases(data_filtrada), ]
+
+```
+
+Dividimos el dataset en train, validation y test.
+```{r}
+
+# Calcular la fecha de inicio del conjunto de validación
+start_val <- as.POSIXct(as.Date(max(data_filtrada$fechaHora)) - (validation_days + test_days))
+
+# Calcular la fecha de inicio del conjunto de prueba
+start_test <- as.POSIXct(as.Date(max(data_filtrada$fechaHora)) - test_days)
+
+# Dividir el DataFrame en conjunto de entrenamiento, validación y prueba
+
+train <- data_filtrada[data_filtrada$fechaHora < start_val, ]
+val <- data_filtrada[(start_val <= data_filtrada$fechaHora) & (data_filtrada$fechaHora < start_test), ]
+test <- data_filtrada[start_test <= data_filtrada$fechaHora, ]
+
+
+exog_train_raw <-  subset(train, select = -c(precio_spot, fechaHora))
+exog_train <- lapply(exog_train_raw, function(x) diff(x))
+exog_train <- lapply(exog_train, function(x) diff(x, lag = 24))
+exog_train <- do.call(cbind, exog_train)
+
+exog_val_raw <-  subset(val, select = -c(precio_spot, fechaHora))
+exog_val <- lapply(exog_val_raw, function(x) diff(x))
+exog_val <- lapply(exog_val, function(x) diff(x, lag = 24))
+exog_val <- do.call(cbind, exog_val)
+
+exog_test_raw <-  subset(test, select = -c(precio_spot, fechaHora))
+exog_test <- lapply(exog_test_raw, function(x) diff(x))
+exog_test <- lapply(exog_test, function(x) diff(x, lag = 24))
+exog_test <- do.call(cbind, exog_test)
+
+
+train_raw <- ts(train$precio_spot, frequency = 24, start = c(2024, 1, 1))
+val_raw <- ts(val$precio_spot, frequency = 24)
+test_raw <- ts(test$precio_spot, frequency = 24)
+
+
+
+ggplot() +
+  geom_line(data = train, aes(x = fechaHora, y = precio_spot, color = "Train")) +
+  geom_line(data = val, aes(x = fechaHora, y = precio_spot, color = "Validation")) +
+  geom_line(data = test, aes(x = fechaHora, y = precio_spot, color = "Test")) +
+  labs(title = "Precio_spot de Train, Validation y Test",
+       x = "FechaHora",
+       y = "Precio Spot") +
+  scale_color_manual(values = c("blue", "red", "green"), 
+                     name = "",
+                     labels = c("Train", "Validation", "Test")) +
+  theme_minimal()
+
+
+```
+Como describimos en el apartado de Fundamentos Teóricos el modelo ARIMA tiene como supuesto que nuestra serie temporal es estacionaria en media en varianza, i.e, que la media y la varianza son estables en el tiempo.
+
+Por ello visualizaremos la serie temporal, descomponiéndola y realizaremos los contrastes de hipótesis oportunos para determinar si nos encontramos ante una serie temporal estacionaria y si se presenta una componente estacional. 
+```{r}
+
+componentes.ts = decompose(train_raw)
+plot(componentes.ts)
+```
+Al descomponer la serie temporal observamos que esta no es ni estacionaria en media ni en varianza. Por ello deberemos realizar las transformaciones adecuadas para disponer de una serie temporal estacionaria adecuada para el modelo ARIMA. 
+
+Parece que si existe una componente estacional, pero es difícil de determinar a partir de este gráfico  por lo agrupados que están los datos. Evaluaremos la existencia de componente estacional posteriormente mediante las ACF y PACF.
+
+EL modelo ARIMA tiene como supuesto tratar con una serie estacionaria en media y en varianza. Puesto que nuestra serie temporal no lo es, debemos realizar las transformaciones necesarias.
+
+Para hacer la serie temporal estacionaria en varianza realizaremos una transformación de Box-Cox. En primer lugar calculamos el valor de lambda.
+```{r}
+lambda <- BoxCox.lambda(train_raw)
+lambda
+```
+
+```{r}
+
+Bc_tsData <- BoxCox(train_raw, lambda)
+plot(cbind(train_raw,Bc_tsData))
+
+```
+Observamos como ahora la serie es estacionaria en varianza. Ahora deberemos hacerla estacionaria en media, por lo que diferenciamos las veces necesarias la serie. En nuestro caso tan solo sera necesario diferenciar una vez. El parámetro 'd' de nuestro modelo SARIMA sera igual a 1.
+
+
+```{r}
+ndiffs(Bc_tsData)
+train_stationary <- diff(Bc_tsData)
+ndiffs(train_stationary)
+```
+```{r}
+plot(train_stationary)
+```
+Como podemos observar la serie ahora es estacionaria en media y varianza.
+
+Procedemos ahora a estudiar la estacionalidad.
+
+```{r}
+par(mfrow = c(1,2))
+acf(train_stationary,lag.max=48)
+pacf(train_stationary,lag.max=48)
+```
+Como podemos ver en la PACF la serie temporal tiene el valor mas significativo en el retardo (lag) 24 (valor de la frecuencia), por lo tanto la serie tiene componente estacional.
+
+Realizamos una diferenciación estacional. El parámetro 'D' de ARIMA sera igual a 1.
+```{r}
+train_stationary <- diff(train_stationary, lag=24)
+```
+
+```{r}
+#componentes.ts = decompose(train_stationary)
+plot(train_stationary)
+```
+
+En principio ya hemos transformado nuestra serie a una estacionaria en media y varianza y sin componente estacional. Aun así, realizamos el test de Dickie-Fuller aumentado para estar seguros de que no debemos realizar mas transformaciones. La hipótesis nula es que nuestra serie no es estacionaria.
+
+```{r}
+adf.test(train_stationary, alternative = "stationary")
+
+```
+Como el p-valor es menor que 0.05 podemos rechazar la hipótesis nula de que la serie no es estacionaria, por tanto podemos concluir que nuestra serie es estacionaria. 
+
+Una vez tenemos nuestra serie temporal estacionaria podemos comenzar con la modelización. En primer lugar  graficaremos las ACF y PACF para hallar los parámetros del modelo ARIMA(p,d,q)x(P,D,Q)s. 
+```{r}
+par(mfrow = c(1,2))
+acf(train_stationary,lag.max=24)
+pacf(train_stationary,lag.max=24)
+
+```
+Observamos en estas gráficas como no hay ningún termino significativo ni autorregresivo ni de medias móviles consecutivo, por lo que los valores p y q serán igual a 0. Los parámetros 'd' y 'D' tendrán valor 1 por las diferenciaciones realizadas a la serie temporal y 's' sera 24 por su componente estacional.
+
+Tras haber realizado este estudio estadístico podemos concluir que nuestro modelo SARIMA sera de la forma (0,1,0)x(0,1,0)24
+
+Una vez disponemos de los parámetros de nuestro modelo SARIMA creamos el modelo. Antes de entrenarlo deberemos ajustar las variables exógenas diferenciándolas para que tengan igual longitud que la serie temporal transformada.
+
+```{r}
+arima <- Arima(train_stationary, order = c(0,1,0), seasonal = list(order = c(0,1,0), period = 24), xreg=exog_train)
+summary(arima)
+
+```
+A priori no parece que tengamos un mal modelo, en general las métricas tienen valores bajos y un AIC=11631.238578.26
+```{r}
+coeftest(arima)
+```
+Una vez entrenado el modelo SARIMA debemos diagnosticar los residuos verificando que cumple los supuesto ARIMA:
+
+-Autocorrelación: Los residuos no deben mostrar autocorrelación significativa, es decir, no deben exhibir patrones discernibles en sus autocorrelogramas
+
+-Normalidad: Los residuos del modelo deben seguir una distribución normal.
+
+-Estacionariedad: Los residuos deben ser estacionarios, lo que significa que su media y varianza deben ser constantes a lo largo del tiempo
+
+Verificamos la autocorrelación.
+```{r}
+par(mar = c(5, 4, 2, 1))  # Ajustar los márgenes inferior, izquierdo, superior y derecho
+
+par(mfcol= c(2,1))
+acf(arima$residuals, lag.max=107, main="ACF de los residuos estandarizados")
+pacf(arima$residuals, lag.max=107, main="PACF de los residuos estandarizados")
+
+```
+La ACF y la PACF de los residuos  no parecen mostrar estructura y tienen casi todos los valores
+dentro de las bandas de confianza. Aun así en la PACF parece que hay un retardo constante que se sale de las bandas de confianza. No podemos garantizar que los residuos son aleatorios, pero tampoco lo contrario.
+
+Realizamos el test de Ljung-Box.
+```{r}
+
+checkresiduals(arima)
+```
+El p-valor del test de Ljung-Box es menor que 0.05 luego se puede rechazar que las primeras autocorrelaciones
+sean nulas, y no se puede asumir que los residuos sean ruido blanco. En la ACF podemos ver una notable correlación con lag igual a 24. Los residuos sí parecen ajustarse a una distribución normal. En la gráfica de los residuos podemos observar que si parecen ser estacionarios.
+
+
+Visualizamos el QQ Plot de los residuos.
+```{r}
+qqnorm(arima$residuals, ylab = "Residuals")
+qqline(arima$residuals)
+
+
+```
+Podemos ver que los residuos aproximadamente siguen una distribución normal, a pesar de la gran cantidad
+de valores atípicos.
+```{r}
+boxplot(arima$residuals,main="Boxplot de los residuos ")
+```
+En este box plot observamos mas fácilmente la cantidad de valores atípicos presentes. Aun así la mayoría de residuos están entorno al 0.
+
+Tras analizar los residuos todo apunta a que no siguen los supuestos ARIMA. Aun así, si el modelo tiene buena capacidad predictiva no lo descartaremos.
+
+Veamos gráficamente la diferencia entre la serie original y el modelo ajustado (en rojo)
+```{r}
+par(mfrow = c(1,1))
+plot(tail(train_stationary, n = 72))
+lines(tail(train_stationary, n = 72) - tail(arima$residuals, n = 72),col="red")
+
+
+```
+Como se puede apreciar el modelo no se esta ajustando muy bien a nuestra serie.
+
+Realizamos predicciones con los datos de validación para evaluar el modelo:
+```{r}
+predicciones <- forecast(arima, h = 24, xreg =as.matrix(exog_val), level = c(85, 95))
+
+```
+
+Debemos realizar las mismas transformaciones que hicimos al conjunto de train para obtener unas métricas adecuadas.
+```{r}
+Bc_val <- BoxCox(val$precio_spot, lambda)
+lambda <- BoxCox.lambda(train_raw)
+val_stationary <- diff(Bc_val)
+val_stationary <- diff(val_stationary, lag=24)
+```
+
+
+```{r}
+
+accuracy(predicciones, val_stationary)
+```
+
+Como podemos ver nuestro modelo no es muy bueno.Por ello haremos uso de la función autoarima para obtener el mejor modelo ARIMA desde un enfoque empírico en vez de teórico.
+
+
+```{r}
+#auto_arima <- auto.arima(train_stationary, xreg = exogData)
+
+```
+El mejor modelo hallado es con los parámetros ARIMA(2,0,0)(2,0,0)[24].
+
+Análogo al entrenamiento del modelo teórico.
+
+```{r}
+# Ajustar el modelo ARIMA
+arima <- Arima(train_stationary, order = c(2,0,0), seasonal = list(order = c(2,1,0), period = 24), xreg=exog_train)
+summary(arima)
+
+```
+En primera instancia se observa una ligera mejora en entrenamiento respecto al modelo anterior. EL AIC=8578.26 ha disminuido notablemente.
+```{r}
+coeftest(arima)
+```
+Volvemos a realizar una diagnosis del modelo.
+```{r}
+par(mar = c(5, 4, 2, 1))  
+par(mfcol= c(2,1))
+acf(arima$residuals, lag.max=107, main="ACF de los residuos estandarizados")
+pacf(arima$residuals, lag.max=107, main="PACF de los residuos estandarizados")
+
+```
+En esta ocasión si que parece que las funciones de autocorrelación no muestran estructura y casi todos los valores se encuentran dentro de las bandas así que podemos considerar que los residuos son aleatorios
+
+```{r}
+
+checkresiduals(arima)
+```
+El p-valor de test de Ljung-Box es menor que 0.05 luego se puede rechazar que las primeras autocorrelaciones
+sean nulas, y no se puede asumir que los residuos sean ruido blanco. En la ACF podemos ver una notable correlación con lag igual a 24 y múltiplos de él. Los residuos sí parecen ajustarse a una distribución normal. En la gráfica de los residuos podemos observar que si parecen ser estacionarios.
+
+
+```{r}
+
+# Crear el gráfico Q-Q de los residuos
+qqnorm(arima$residuals, ylab = "Residuals")
+
+# Agregar la línea de referencia al gráfico Q-Q
+qqline(arima$residuals)
+
+
+```
+Podemos ver que los residuos aproximadamente siguen una distribución normal, a pesar de la gran cantidad
+de valores atípicos.
+```{r}
+boxplot(arima$residuals,main="Boxplot de los residuos ")
+```
+En este box plot observamos mas fácilmente la cantidad de valores atípicos presentes. Aun así la mayoría de residuos están entorno al 0.
+
+Tras analizar los residuos todo apunta a que no siguen los supuestos ARIMA. Aun así, si el modelo tiene buena capacidad predictiva no lo descartaremos.
+
+Veamos gráficamente la diferencia entre la serie original y el modelo ajustado (en rojo)
+
+```{r}
+par(mfrow = c(1,1))
+plot(tail(train_stationary, n = 72))
+lines(tail(train_stationary, n = 72) - tail(arima$residuals, n = 72),col="red")
+
+
+```
+Nuevamente el modelo no parece ajustarse muy bien a los datos.
+
+Realizamos predicciones con los datos de validación para evaluar el modelo:
+
+```{r}
+predicciones <- forecast(arima, h = 24, xreg =as.matrix(exog_val), level = c(85, 95))
+
+```
+
+Como el modelo no has sufrido mas transformaciones (d, D igual a 0) seguimos evaluando con los datos de validación trasformados anteriormente,
+```{r}
+accuracy(predicciones, val_stationary)
+```
+Observamos como efectivamente obtenemos unos resultados mejores que con el anterior modelo. Aun así hemos visto que el modelo SARIMA no se ajusta muy bien a la serie temporal, por lo que también descartamos este modelo.
+
+Parece que un modelo SARIMAX no es la mejor aproximación a nuestro problema. Aun así, a modo de ultimo intento, trataremos de entrenar un modelo con la serie original, sin sufrir ninguna transformación alguna. Hacemos uso de autoarima.
+
+```{r}
+exogData <-  subset(train, select = -c(precio_spot, fechaHora))
+#auto_arima <- auto.arima(tsData, xreg = as.matrix(exogData))
+
+```
+
+El mejor modelo hallado es ARIMA(1,1,4)(1,0,0)[24]
+
+```{r}
+arima <- Arima(train_raw, order = c(1,1,4), seasonal = list(order = c(1,0,0), period = 24), xreg=as.matrix(exog_train_raw))
+summary(arima)
+
+
+```
+Las métricas han empeorado notablemente, el AIC=15131.88 ha aumentado a casi el doble respecto al anterior modelo.
+```{r}
+coeftest(arima)
+```
+
+```{r}
+par(mar = c(5, 4, 2, 1))  # Ajustar los márgenes inferior, izquierdo, superior y derecho
+
+par(mfcol= c(2,1))
+acf(arima$residuals, lag.max=107, main="ACF de los residuos estandarizados")
+pacf(arima$residuals, lag.max=107, main="PACF de los residuos estandarizados")
+
+```
+Vemos como no muestran estructura y casi todos los valores se encuentran dentro de las bandas así que podemos considerar que los residuos son aleatorios.
+
+
+```{r}
+
+checkresiduals(arima)
+```
+El p-valor de test de Ljung-Box es menor que 0.05 luego se puede rechazar que las primeras autocorrelaciones
+sean nulas, y no se puede asumir que los residuos sean ruido blanco. En la ACF podemos ver una notable correlación con lag igual a 12 curiosamente. Los residuos sí parecen ajustarse a una distribución normal aunque parece haber valores atípicos muy alejados de 0. En la gráfica de los residuos podemos observar que si parecen ser estacionarios.
+
+
+```{r}
+# Crear el gráfico Q-Q de los residuos
+qqnorm(arima$residuals, ylab = "Residuals")
+
+# Agregar la línea de referencia al gráfico Q-Q
+qqline(arima$residuals)
+
+
+```
+Al igual que en los anteriores modelos los residuos aproximadamente se ajustan a una distribución normal. Aun así en este modelo hay residuos mucho mas alejados que en los anteriores.
+```{r}
+boxplot(arima$residuals,main="Boxplot de los residuos ")
+```
+Efectivamente corroboramos que hay bastantes valores atípicos muy alejados de 0.
+
+Al igual que los anteriores modelos no podemos considerar que el modelo ha superado la diagnosis.
+
+```{r}
+
+par(mfrow = c(1,1))
+plot(tail(train_raw, n = 72))
+lines(tail(train_raw, n = 72) - tail(arima$residuals, n = 72),col="red")
+
+
+```
+Sorprendentemente en esta ocasión si que parece ajustarse bien a nuestra serie temporal. Realizamos predicciones con el conjunto de validación y evaluamos los resultados.
+
+```{r}
+predicciones <- forecast(arima, h = 24, xreg =as.matrix(exog_val_raw), level = c(85, 95))
+predicciones$mean[predicciones$mean < 0] <- 0
+```
+
+
+```{r}
+accuracy(predicciones, val$precio_spot)
+```
+Las métricas obtenidas han empeorado, sin embargo acabamos de ver que estas no reflejan bien la capacidad predictiva del modelo. Procedemos a visualizar las predicciones con el conjunto de validación.
+
+```{r}
+plot(val$precio_spot, type = "l", ylim = c(0, max(val$precio_spot, predicciones$mean)), xlab = "Tiempo", ylab = "Valor", main = "Últimos valores y predicciones")
+
+lines(as.numeric(predicciones$mean), col = "red")
+
+legend("topright", legend = c("Validacion", "Predicciones"), col = c("black", "red"), lty = 1)
+
+```
+
+Como podemos ver el modelo ajusta muy bien la forma pero no la magnitud. Puesto que este modelo es el que mejor se ajusta a nuestra serie lo seleccionaremos como modelo ganador.
+
+Procedemos a evaluar su comportamiento con datos de test.
+
+
+```{r}
+combined_ts <- rbind(as.matrix(train_raw), as.matrix(val_raw))
+combined_exog <- rbind(exog_train_raw, exog_val_raw)
+
+arima <- Arima(combined_ts, order = c(1,1,4), seasonal = list(order = c(1,0,0), period = 24), xreg=as.matrix(combined_exog))
+summary(arima)
+
+```
+
+
+```{r}
+plot(test$precio_spot, type = "l", ylim = c(0, max(test$precio_spot, predicciones$mean)), xlab = "Tiempo", ylab = "Valor", main = "Últimos valores y predicciones")
+
+lines(as.numeric(predicciones$mean), col = "red")
+
+legend("topright", legend = c("Últimos valores", "Predicciones"), col = c("black", "red"), lty = 1)
+```
+Nuevamente observamos como el modelo predice bien la forma pero no la magnitud de los valores.
+
+Curiosamente sera este ultimo modelo ARIMA que obvia toda la base teórica nuestro modelo ganador. Sera este modelo y no cualquiera de los otros 2, aquí a tener perores métricas, ya que visualmente observamos que es el que mejor modela nuestra serie temporal. Los resultados obtenidos aun así no son satisfactorios, continuaremos estudiando modelos mas avanzados con el objetivo de realizar mejores predicciones que las obtenidas aquí.

@@ -1,0 +1,8 @@
+{
+    "python.analysis.extraPaths": [
+        "./utils",
+        "./config"
+    ],
+
+    "jupyter.interactiveWindow.textEditor.executeSelection": true
+}
