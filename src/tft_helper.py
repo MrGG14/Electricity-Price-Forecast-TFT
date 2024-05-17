@@ -14,7 +14,7 @@ def _centered(arr, newsize):
 
 scipy.signal.signaltools._centered = _centered
 
-
+import pandas as pd
 from pytorch_forecasting.models.temporal_fusion_transformer.tuning import optimize_hyperparameters
 from pytorch_forecasting import TemporalFusionTransformer
 import lightning.pytorch as pl
@@ -94,10 +94,11 @@ def tft_trainer(train, train_dataloader, val_dataloader, max_epochs=20, model_pa
         model_path = model_path
         torch.save(tft.state_dict(), model_path)
 
+    loss = trainer.callback_metrics['val_loss'].item() if 'train_loss_epoch' in trainer.callback_metrics else None
 
     print(f"Number of parameters in network: {tft.size()/1e3:.1f}k")
 
-    return tft
+    return tft, loss
 
 
 
@@ -166,3 +167,16 @@ def run_hyperparameter_optimization(train, train_dataloader, val_dataloader, tra
             torch.save(grid_tft.state_dict(), save_model_path)
 
     return study, grid_tft
+
+def save_exp_results(exp_path, tft_params, model_days, n_prev_hours, val_loss, epochs):
+    tft_exps = pd.read_excel(exp_path)
+
+    model_name = f'simple_{model_days}_{n_prev_hours}'
+    loss = val_loss
+
+    new_exp = {'model_name': model_name, 'loss': loss, 'epochs': epochs}
+    new_exp.update(tft_params)
+    tft_exps = tft_exps.append(new_exp, ignore_index=True)
+    print(tft_exps)
+    tft_exps.to_excel(exp_path, index=False)
+
