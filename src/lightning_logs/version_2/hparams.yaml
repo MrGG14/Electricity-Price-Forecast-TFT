@@ -1,22 +1,22 @@
-attention_head_size: 4
+attention_head_size: 2
 categorical_groups: {}
 causal_attention: true
-dropout: 0.2960659121982872
+dropout: 0.2997107370422699
 embedding_labels: {}
 embedding_paddings:
 - month
 - week
 - day
 embedding_sizes: {}
-hidden_continuous_size: 22
+hidden_continuous_size: 19
 hidden_continuous_sizes: {}
-hidden_size: 36
-learning_rate: 0.0010322318420096076
+hidden_size: 32
+learning_rate: 0.05
 log_gradient_flow: false
 log_interval: 10
 log_val_interval: null
 lstm_layers: 1
-max_encoder_length: 144
+max_encoder_length: 168
 monotone_constaints: {}
 optimizer: Ranger
 optimizer_params: null
@@ -24,12 +24,12 @@ output_size: 7
 output_transformer: !!python/object:pytorch_forecasting.data.encoders.GroupNormalizer
   center: true
   groups:
-  - week
+  - month
   method: robust
   method_kwargs: {}
   missing_:
-    center: 85.39
-    scale: 16.8909765625
+    center: 98.3875
+    scale: 21.546601562499994
   norm_: !!python/object:pandas.core.frame.DataFrame
     _flags:
       allows_duplicate_labels: true
@@ -48,7 +48,7 @@ output_transformer: !!python/object:pytorch_forecasting.data.encoders.GroupNorma
           - 1
           - !!python/tuple
             - 2
-            - 53
+            - 24
           - !!python/object/apply:numpy.dtype
             args:
             - f8
@@ -65,21 +65,13 @@ output_transformer: !!python/object:pytorch_forecasting.data.encoders.GroupNorma
             - 0
           - false
           - !!binary |
-            HoXrUbh2WEAzMzMzM5NWQBSuR+F6HFZAcT0K16PgSEAUrkfheuRTQAAAAAAAwFVAKVyPwvVYVUAK
-            16NwPVpYQNejcD0K51pAXI/C9Sg8WECQwvUoXPdaQJqZmZmZsVhAZmZmZmaGVkAAAAAAAMhXQHE9
-            CtejAFRAexSuR+G6V0AzMzMzM+tYQJqZmZmZGV5A9ihcj8IlWUAfhetRuA5YQOxRuB6FE1xAzczM
-            zMwEWEAK16NwPbpdQFK4HoXrkVtAAAAAAABAX0DsUbgehbtXQM3MzMzM/FJAkQ+Z7jUlEUAAAAAA
-            AIhRQFK4HoXrKVVAUrgehesxSkAfhetRuF5ZQML1KFyPElZAH4XrUbieTkAUrkfheqxRQHA9Ctej
-            gFVAKs+ML3D9KUCuR+F6FH5LQPYoXI/CnVhApHA9CtcrUkBSuB6F65lQQHoUrkfhilFA7FG4HoXr
-            TECF61G4HtVJQDMzMzMzc0FAULQTsF5ECUBsclNNJNoPQB+F61G4fjRAXI/C9SisQUBxnTVDxyPQ
-            v8T88Pw1stu/Ek8rb5YFQsAEbNYqnfj1PzQzMzNzczNA4noUrofxMUDgehSuh8EwQNijcD1KXzZA
-            onA9Clc0L0A8Ctej8N0jQEzhehQu2CNApHA9Cle0JEDOzMzMDBUwQGhmZmbm9ixA2KNwPUp3MUBM
-            4XoULrgnQFyPwvWoXChA4HoUrsfhKUCwR+F6lM4uQGZmZmamTjFAZGZmZuYmL0C4HoXrkSAwQOxR
-            uB4F3C1ApHA9ChfkMEDYo3A9ilcrQML1KFzPejFAcj0K1+MAMkCG61G4Xl0yQIjrUbiedS5A16Nw
-            PSr3Q0AehetR+B4+QCFWqYbPjyVAwvUoXK8KQEBmZmZmhm5BQB6F61H4jjtAIIXrUTiPJ0BSuB6F
-            K4o2QFyPwvVoBDJAzszMzAy1MUAwMzMzs7MvQFEbYom21D5Aj8L1KJwHNEBoZmZm5mYoQPQoXI8C
-            5jNA4noUrscBLUCSwvUo3A8sQOxRuB4F3C5AuB6F69EYJ0A4U9GaAn4xQKbwvShM/QxAO4QNymRt
-            H0Dvl4dqFis1QAvXo3B9mjNAV4osWhyaM0A2IsOXxqAzQI3F7vcE4zNAaFITHIUFNUA=
+            9ihcj8KFZkAK16NwPVJlQI/C9ShcT2JAwvUoXI/iYkCamZmZmZlhQML1KFyP0l1AXI/C9SgcXEAA
+            AAAAAIBbQLgehetRCE5AkML1KFwPYUAAAAAAAABZQDMzMzMzU1RAcD0K16NYVEAUrkfhelxXQKRw
+            PQrXo1dA9ihcj8KdWEDsUbgehZtaQKRwPQrXk1hAhetRuB79UUDsUbgehcNSQM3MzMzM/FJAAAAA
+            AAAARUAAEz7qq6YRQAf6J+QKRem/XI/C9Wj8N0DkehSuh7E6QIjrUbie5S1AFK5H4bqUNUD1KFyP
+            4r1AQHgUrkchoztAeBSuRyGDNUDrUbgepetGQFG4HoULHkRArEfhepSuLkDsUbgepb9CQOJ6FK5n
+            BURAwvUoXM8CNUDI9ShcD5MpQAzXo3C9Ci1AuB6F65HAMUDYo3A9SscwQB+F61HYYkBA16NwPSqD
+            Q0AK16NwfSo0QPYoXI8CPjFAzb4FtfnuOEAI+GoHxs8xQLS7GNMU9zRA
         - !!python/object/apply:builtins.slice
           - 0
           - 2
@@ -128,7 +120,7 @@ output_transformer: !!python/object:pytorch_forecasting.data.encoders.GroupNorma
             state: !!python/tuple
             - 1
             - !!python/tuple
-              - 53
+              - 24
             - !!python/object/apply:numpy.dtype
               args:
               - i8
@@ -148,12 +140,8 @@ output_transformer: !!python/object:pytorch_forecasting.data.encoders.GroupNorma
               AQAAAAAAAAACAAAAAAAAAAMAAAAAAAAABAAAAAAAAAAFAAAAAAAAAAYAAAAAAAAABwAAAAAAAAAI
               AAAAAAAAAAkAAAAAAAAACgAAAAAAAAALAAAAAAAAAAwAAAAAAAAADQAAAAAAAAAOAAAAAAAAAA8A
               AAAAAAAAEAAAAAAAAAARAAAAAAAAABIAAAAAAAAAEwAAAAAAAAAUAAAAAAAAABUAAAAAAAAAFgAA
-              AAAAAAAXAAAAAAAAABgAAAAAAAAAGQAAAAAAAAAaAAAAAAAAABsAAAAAAAAAHAAAAAAAAAAdAAAA
-              AAAAAB4AAAAAAAAAHwAAAAAAAAAgAAAAAAAAACEAAAAAAAAAIgAAAAAAAAAjAAAAAAAAACQAAAAA
-              AAAAJQAAAAAAAAAmAAAAAAAAACcAAAAAAAAAKAAAAAAAAAApAAAAAAAAACoAAAAAAAAAKwAAAAAA
-              AAAsAAAAAAAAAC0AAAAAAAAALgAAAAAAAAAvAAAAAAAAADAAAAAAAAAAMQAAAAAAAAAyAAAAAAAA
-              ADMAAAAAAAAANAAAAAAAAAA1AAAAAAAAAA==
-          name: week
+              AAAAAAAXAAAAAAAAABgAAAAAAAAA
+          name: month
     _typ: dataframe
     attrs: {}
   scale_by_group: false

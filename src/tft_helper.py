@@ -171,7 +171,7 @@ def run_hyperparameter_optimization(train, train_dataloader, val_dataloader, tra
 def save_exp_results(exp_path, tft_params, model_days, n_prev_hours, group, val_loss, epochs):
     tft_exps = pd.read_excel(exp_path)
 
-    model_name = f'simple_{group}_{model_days}_{n_prev_hours}'
+    model_name = f'model_{group}_{model_days}_{n_prev_hours}'
     loss = val_loss
 
     new_exp = {'model_name': model_name, 'loss': loss, 'epochs': epochs}
