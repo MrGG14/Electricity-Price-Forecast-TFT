@@ -227,4 +227,8 @@ def save_exp_results(
     new_exp = {"model_name": model_name, "loss": loss, "epochs": epochs}
     new_exp.update(tft_params)
     tft_exps = tft_exps.append(new_exp, ignore_index=True)
+
+    tft_exps.sort_values(by="loss", ascending=True, inplace=True)
+    tft_exps = tft_exps.reset_index(drop=True)
+
     tft_exps.to_excel(exp_path, index=False)

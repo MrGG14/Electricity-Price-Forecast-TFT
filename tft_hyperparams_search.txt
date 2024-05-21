@@ -1,0 +1,100 @@
+[I 2024-05-20 21:49:10,489] A new study created in memory with name: no-name-337aa419-5a40-4fba-88ff-d1236ef89fc5
+c:\Users\nvegamun\AppData\Local\anaconda3\envs\tfg\lib\site-packages\pytorch_forecasting\models\temporal_fusion_transformer\tuning.py:124: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  gradient_clip_val = trial.suggest_loguniform("gradient_clip_val", *gradient_clip_val_range)
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+c:\Users\nvegamun\AppData\Local\anaconda3\envs\tfg\lib\site-packages\pytorch_forecasting\models\temporal_fusion_transformer\tuning.py:148: FutureWarning: suggest_uniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float instead.
+  dropout=trial.suggest_uniform("dropout", *dropout_range),
+c:\Users\nvegamun\AppData\Local\anaconda3\envs\tfg\lib\site-packages\lightning\pytorch\utilities\parsing.py:199: Attribute 'loss' is an instance of `nn.Module` and is already saved during checkpointing. It is recommended to ignore them using `self.save_hyperparameters(ignore=['loss'])`.
+c:\Users\nvegamun\AppData\Local\anaconda3\envs\tfg\lib\site-packages\lightning\pytorch\utilities\parsing.py:199: Attribute 'logging_metrics' is an instance of `nn.Module` and is already saved during checkpointing. It is recommended to ignore them using `self.save_hyperparameters(ignore=['logging_metrics'])`.
+c:\Users\nvegamun\AppData\Local\anaconda3\envs\tfg\lib\site-packages\pytorch_forecasting\models\temporal_fusion_transformer\tuning.py:196: FutureWarning: suggest_loguniform has been deprecated in v3.0.0. This feature will be removed in v6.0.0. See https://github.com/optuna/optuna/releases/tag/v3.0.0. Use suggest_float(..., log=True) instead.
+  model.hparams.learning_rate = trial.suggest_loguniform("learning_rate", *learning_rate_range)
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-20 22:13:46,770] Trial 0 finished with value: 3.7490413188934326 and parameters: {'gradient_clip_val': 0.5662389943894377, 'hidden_size': 9, 'dropout': 0.2907147810395143, 'hidden_continuous_size': 8, 'attention_head_size': 3, 'learning_rate': 0.0424705279543172}. Best is trial 0 with value: 3.7490413188934326.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-20 22:32:14,593] Trial 1 finished with value: 3.4908671379089355 and parameters: {'gradient_clip_val': 0.08682997561891886, 'hidden_size': 8, 'dropout': 0.2884581547136913, 'hidden_continuous_size': 8, 'attention_head_size': 1, 'learning_rate': 0.05823228855544068}. Best is trial 1 with value: 3.4908671379089355.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-20 23:21:51,770] Trial 2 finished with value: 4.279865741729736 and parameters: {'gradient_clip_val': 0.742128165724485, 'hidden_size': 37, 'dropout': 0.23739197975669232, 'hidden_continuous_size': 16, 'attention_head_size': 2, 'learning_rate': 0.09558761197860592}. Best is trial 1 with value: 3.4908671379089355.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-20 23:46:52,601] Trial 3 finished with value: 4.3430585861206055 and parameters: {'gradient_clip_val': 0.023488623811700773, 'hidden_size': 12, 'dropout': 0.2378107608111856, 'hidden_continuous_size': 10, 'attention_head_size': 2, 'learning_rate': 0.0015451523820414895}. Best is trial 1 with value: 3.4908671379089355.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 00:06:12,960] Trial 4 finished with value: 3.9223151206970215 and parameters: {'gradient_clip_val': 0.021897578202455175, 'hidden_size': 8, 'dropout': 0.21157682079340162, 'hidden_continuous_size': 8, 'attention_head_size': 3, 'learning_rate': 0.12852892718293316}. Best is trial 1 with value: 3.4908671379089355.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 00:33:26,995] Trial 5 finished with value: 3.396662473678589 and parameters: {'gradient_clip_val': 0.31182371846252865, 'hidden_size': 13, 'dropout': 0.29421428458809257, 'hidden_continuous_size': 8, 'attention_head_size': 1, 'learning_rate': 0.002283777543696124}. Best is trial 5 with value: 3.396662473678589.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 01:05:04,032] Trial 6 finished with value: 4.265012741088867 and parameters: {'gradient_clip_val': 0.516446859451202, 'hidden_size': 18, 'dropout': 0.10189156768591082, 'hidden_continuous_size': 10, 'attention_head_size': 2, 'learning_rate': 0.1540791566897598}. Best is trial 5 with value: 3.396662473678589.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 01:49:22,991] Trial 7 finished with value: 5.464954853057861 and parameters: {'gradient_clip_val': 0.16836084332054788, 'hidden_size': 36, 'dropout': 0.15921834859683898, 'hidden_continuous_size': 10, 'attention_head_size': 1, 'learning_rate': 0.08186581350122021}. Best is trial 5 with value: 3.396662473678589.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 02:45:15,666] Trial 8 finished with value: 4.824962139129639 and parameters: {'gradient_clip_val': 0.2723365350453476, 'hidden_size': 44, 'dropout': 0.15725131900097197, 'hidden_continuous_size': 17, 'attention_head_size': 3, 'learning_rate': 0.23423446762121056}. Best is trial 5 with value: 3.396662473678589.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 03:06:55,186] Trial 9 finished with value: 3.5466275215148926 and parameters: {'gradient_clip_val': 0.026073637541462344, 'hidden_size': 12, 'dropout': 0.21305144371816803, 'hidden_continuous_size': 12, 'attention_head_size': 1, 'learning_rate': 0.004694410893912888}. Best is trial 5 with value: 3.396662473678589.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 03:40:49,631] Trial 10 finished with value: 4.2446770668029785 and parameters: {'gradient_clip_val': 0.07915849987957135, 'hidden_size': 23, 'dropout': 0.29881523320963693, 'hidden_continuous_size': 23, 'attention_head_size': 4, 'learning_rate': 0.008002976727803724}. Best is trial 5 with value: 3.396662473678589.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 03:58:35,117] Trial 11 finished with value: 4.713860511779785 and parameters: {'gradient_clip_val': 0.06822687840514155, 'hidden_size': 8, 'dropout': 0.27273658000725837, 'hidden_continuous_size': 8, 'attention_head_size': 1, 'learning_rate': 0.021393058704394063}. Best is trial 5 with value: 3.396662473678589.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 04:23:58,594] Trial 12 finished with value: 4.0130743980407715 and parameters: {'gradient_clip_val': 0.1894473630965528, 'hidden_size': 13, 'dropout': 0.2675009754005896, 'hidden_continuous_size': 8, 'attention_head_size': 1, 'learning_rate': 0.0013685525844661474}. Best is trial 5 with value: 3.396662473678589.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 05:37:52,954] Trial 13 finished with value: 4.992095947265625 and parameters: {'gradient_clip_val': 0.051216684124325125, 'hidden_size': 59, 'dropout': 0.2990348707147556, 'hidden_continuous_size': 41, 'attention_head_size': 1, 'learning_rate': 0.03121448846002396}. Best is trial 5 with value: 3.396662473678589.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+`Trainer.fit` stopped: `max_epochs=30` reached.
+[I 2024-05-21 06:01:11,040] Trial 14 finished with value: 3.953399181365967 and parameters: {'gradient_clip_val': 0.010537306884907671, 'hidden_size': 10, 'dropout': 0.26406999894123895, 'hidden_continuous_size': 8, 'attention_head_size': 2, 'learning_rate': 0.0134137794392699}. Best is trial 5 with value: 3.396662473678589.
+Mejores hiperparámetros hallados: {'gradient_clip_val': 0.31182371846252865, 'hidden_size': 13, 'dropout': 0.29421428458809257, 'hidden_continuous_size': 8, 'attention_head_size': 1, 'learning_rate': 0.002283777543696124}
