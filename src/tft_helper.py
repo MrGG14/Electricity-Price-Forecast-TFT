@@ -21,7 +21,7 @@ from pytorch_forecasting.models.temporal_fusion_transformer.tuning import (
 from pytorch_forecasting import TemporalFusionTransformer
 import lightning.pytorch as pl
 import torch
-from pytorch_forecasting.metrics import MAE, SMAPE, PoissonLoss, QuantileLoss
+from pytorch_forecasting.metrics import  QuantileLoss
 from lightning.pytorch.tuner import Tuner
 from scipy.signal.signaltools import _centered
 
