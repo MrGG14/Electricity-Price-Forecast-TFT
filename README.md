@@ -1,120 +1,51 @@
-Skip to content
-Navigation Menu
-MrGG14
-/
-Electricity-Price-Forecast-NN
+# Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks
 
-Type / to search
+## Overview
 
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-Editing README.md in Electricity-Price-Forecast-NN
-BreadcrumbsElectricity-Price-Forecast-NN
-/
-README.md
-in
-main
+This repository contains the code used for the Bachelor's Thesis titled "Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks" by Nicolás Vega Muñoz. The thesis was submitted to the Escuela Técnica Superior de Ingenieros Informáticos at the Universidad Politécnica de Madrid in June 2024.
 
-Edit
+The primary objective of this work is to develop a model capable of predicting the SPOT price (price per MWh) in the Spanish electricity market for each hour of the following day. This model aims to optimize market offers by providing accurate price forecasts, which are crucial for making informed decisions in a highly volatile energy market.
 
-Preview
-Indent mode
+## Objectives
 
-Spaces
-Indent size
+- **Accurate Prediction**: Develop a model to predict the SPOT price with high accuracy.
+- **Model Comparison**: Evaluate and compare various models, including classical methods and state-of-the-art deep learning models like Temporal Fusion Transformers (TFT).
+- **Strategic Advantage**: Provide a strategic advantage for operating in the daily electricity market through improved prediction accuracy and optimized energy offer management.
+- **Model Interpretability**: Highlight the importance of model interpretability for strategic decision-making.
 
-2
-Line wrap mode
+## Methodology
 
-Soft wrap
-Editing README.md file contents
-Selection deleted
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
+The methodology applied in this work includes the following steps:
+
+1. **Data Acquisition**: Collect and preprocess data relevant to the Spanish electricity market.
+2. **Modeling**: Develop various models, including both classical and deep learning approaches.
+3. **Model Comparison**: Compare the performance of different models based on metrics such as Mean Absolute Error (MAE).
+4. **Results Analysis**: Analyze the results to identify the best-performing model and its potential impact on the market.
+
+## Results
+
+The study found that state-of-the-art models, particularly the Temporal Fusion Transformers (TFT), provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
+
+### TFT Model Results
+
+![TFT Model Results](https://github.com/MrGG14/Electricity-Price-Forecast-NN/blob/main/predictions/test_tft.png)
+
+### Model Comparison
+
+The following table summarizes the performance of the four models evaluated:
+
+| Model                       | MAE  |
+|-----------------------------|------|
+| Temporal Fusion Transformer | 1.26 |
+| LSTM                        | 4.63 |
+| CNN + LSTM                  | 4.98 |
+| ARIMA                       | 10.8 |
+
+The study found that the Temporal Fusion Transformer (TFT) provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
+
+## Interpretability of the TFT Model
+
+The Temporal Fusion Transformer (TFT) model includes several mechanisms for enhancing interpretability, making it easier to understand the factors driving the SPOT price predictions. These mechanisms are crucial for strategic decision-making in the energy market.
 
 ### Key Mechanisms for Interpretability
 
