@@ -17,23 +17,7 @@ identifiers:
   - type: url
     value: 'https://github.com/MrGG14/OpenScience'
 repository-code: 'https://github.com/MrGG14/Electricity-Price-Forecast-NN'
-abstract: The objective of this Final Degree Project is to develop a model capable of predicting the price of MWh (SPOT price of the energy market) for each hour of the
-following day, thus optimizing market offers. Given the volatility of the energy
-market and the influence of numerous external factors, accuracy in predicting
-the SPOT price is crucial for companies to make informed decisions on how
-to price their offers to maximize profits without the risk of exclusion from the
-market.
-To address this challenge, various models were studied and compared, including both classical and Deep Learning models. Among the evaluated models,
-state-of-the-art models such as Temporal Fusion Transformers (TFT) stand out,
-achieving predictions with a mean absolute error (MAE) of C1.26. The applied
-methodology ranges from data acquisition and preprocessing to modeling, model
-comparison, and results analysis, thus providing a strategic advantage for operating in the daily electricity market.
-The implementation of this model aims not only to improve prediction accuracy
-but also to optimize energy offer management, helping companies to bid more
-competitively and efficiently. Additionally, the importance of advanced technologies and model interpretability is highlighted, enabling companies (generators,
-marketers...) to understand how and why predictions are generated, which is
-essential for strategic decision-making in a dynamic electricity market.
-
+abstract: The objective of this Final Degree Project is to develop a model capable of predicting the price of MWh (SPOT price of the energy market) for each hour of the following day, thus optimizing market offers. Given the volatility of the energy market and the influence of numerous external factors, accuracy in predicting the SPOT price is crucial for companies to make informed decisions on how to price their offers to maximize profits without the risk of exclusion from the market. To address this challenge, various models were studied and compared, including both classical and Deep Learning models. Among the evaluated models, state-of-the-art models such as Temporal Fusion Transformers (TFT) stand out, achieving predictions with a mean absolute error (MAE) of C1.26. The applied methodology ranges from data acquisition and preprocessing to modeling, model comparison, and results analysis, thus providing a strategic advantage for operating in the daily electricity market. The implementation of this model aims not only to improve prediction accuracy but also to optimize energy offer management, helping companies to bid more competitively and efficiently. Additionally, the importance of advanced technologies and model interpretability is highlighted, enabling companies (generators, marketers...) to understand how and why predictions are generated, which is essential for strategic decision-making in a dynamic electricity market. 
 keywords:
   - Temporal Fusion Transformers
   - Electricity Price Forecast
