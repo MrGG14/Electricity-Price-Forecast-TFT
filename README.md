@@ -43,11 +43,45 @@ The following table summarizes the performance of the four models evaluated:
 
 The study found that the Temporal Fusion Transformer (TFT) provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
 
-### Interpretability of the TFT Model
+## Interpretability of the TFT Model
 
-The Temporal Fusion Transformer (TFT) model includes mechanisms for model interpretability, such as attention mechanisms that highlight the most important features influencing the predictions. This allows for a better understanding of the factors driving the SPOT price predictions and enables strategic decision-making based on these insights.
+The Temporal Fusion Transformer (TFT) model includes several mechanisms for enhancing interpretability, making it easier to understand the factors driving the SPOT price predictions. These mechanisms are crucial for strategic decision-making in the energy market.
 
-Key insights from the TFT model include:
+### Key Mechanisms for Interpretability
+
+1. **Variable Selection Networks**:
+   - The TFT model uses variable selection networks at the instance level, selecting the most relevant variables for each prediction. This helps eliminate noisy inputs and highlights the most significant variables for making predictions.
+
+2. **Interpretable Multi-Head Attention**:
+   - The model incorporates a modified multi-head attention mechanism to learn long-term dependencies across different time points. This attention mechanism is designed to be interpretable, allowing each attention head to learn different temporal patterns while analyzing a common set of input features.
+
+3. **Static Covariate Encoders**:
+   - These encoders transform static variables into contextual representations used throughout the prediction process. Incorporating static information allows the TFT to make more accurate and contextually relevant predictions, enhancing interpretability.
+
+4. **Temporal Fusion Decoder**:
+   - The decoder includes layers that focus on learning temporal relationships within the data. For instance, the locality enhancement with a sequence-to-sequence layer helps identify significant values in relation to their neighboring values, useful for detecting anomalies, inflection points, and cyclical patterns.
+
+### Importance of Variables
+
+Key insights from the TFT model include the identification of the most relevant variables influencing the SPOT price predictions:
+
+- **CO2 Levels**: One of the most significant features, indicating a strong correlation between carbon dioxide emissions and electricity prices.
+- **Previous Day's SPOT Price**: This variable is highly influential, showing that past prices are a strong predictor of future prices.
+- **Total Energy Demand**: Reflects the overall consumption and significantly impacts price predictions.
+- **Renewable Energy Production**: The amount of energy generated from renewable sources also plays a crucial role in forecasting prices.
+
+### Conclusions on Interpretability
+
+1. **Understanding Key Drivers**:
+   - The TFT model's interpretability mechanisms allow for a detailed understanding of the key drivers behind SPOT price predictions. This is particularly important for stakeholders who need to make informed strategic decisions based on these predictions.
+
+2. **Enhanced Decision-Making**:
+   - By highlighting the most important features and their relationships, the model provides actionable insights that can lead to more effective and strategic energy offer management.
+
+3. **Transparency and Trust**:
+   - The transparent nature of the TFT model's predictions fosters trust among users, as they can see and understand the factors influencing the model's output. This is essential for the adoption and integration of the model in real-world applications.
+
+Overall, the TFT model not only achieves high prediction accuracy but also provides significant interpretability, making it a powerful tool for forecasting SPOT prices in the Spanish electricity market.
 
 ### Conclusions
 
