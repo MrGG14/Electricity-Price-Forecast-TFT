@@ -28,7 +28,7 @@ The study found that state-of-the-art models, particularly the Temporal Fusion T
 
 ### TFT Model Results
 
-![TFT Model Results](https://github.com/MrGG14/Electricity-Price-Forecast-NN/blob/main/predictions/test_tft.png)
+![TFT Model Results](https://github.com/MrGG14/Electricity-Price-Forecast-TFT/blob/main/plots/predictions/test_tft.png))
 
 ### Model Comparison
 
