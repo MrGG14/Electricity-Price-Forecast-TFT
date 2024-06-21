@@ -1,4 +1,5 @@
 # Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12207478.svg)](https://doi.org/10.5281/zenodo.12207478)
 
 ## Overview
 
