@@ -1,8 +1,9 @@
 # Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.12207478.svg)](https://doi.org/10.5281/zenodo.12207478)
 
 ## Overview
 
-This repository contains the code used for the Bachelor's Thesis titled "Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks" by Nicolás Vega Muñoz. The thesis was submitted to the Escuela Técnica Superior de Ingenieros Informáticos at the Universidad Politécnica de Madrid in June 2024.
+This repository contains the code used for the Bachelor's Thesis titled "Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks" by Nicolás Vega Muñoz. The thesis was submitted to the Escuela Técnica Superior de Ingenieros Informáticos at the Universidad Politécnica de Madrid in June 2024. The full thesis is available [here](https://github.com/MrGG14/Electricity-Price-Forecast-TFT/blob/main/tfg_etsiinf_NicolasVega.pdf).
 
 The primary objective of this work is to develop a model capable of predicting the SPOT price (price per MWh) in the Spanish electricity market for each hour of the following day. This model aims to optimize market offers by providing accurate price forecasts, which are crucial for making informed decisions in a highly volatile energy market.
 
@@ -22,15 +23,50 @@ The methodology applied in this work includes the following steps:
 3. **Model Comparison**: Compare the performance of different models based on metrics such as Mean Absolute Error (MAE).
 4. **Results Analysis**: Analyze the results to identify the best-performing model and its potential impact on the market.
 
-## Results
+## Data Acquisition
+Data was acquired from public sources by doing some Web Scrapping and using the [ESIOS API](https://www.esios.ree.es/es/pagina/api).
 
-The study found that state-of-the-art models, particularly the Temporal Fusion Transformers (TFT), provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
+The variables used are:
+- Gas price (€)
+- European Union Allowances (EUA) price: CO2 emissions allowances. (€)
+- Demand (MwH)
+- Resiudal demand (MwH)
+- Solar production (MwH)
+- Eolic production (MwH)
 
-### TFT Model Results
+  And were obtained from:
+  
+  # Web Scraping:
+- **MIBGAS:** Gas price and forecast
+- **Sendeco2:** Historical CO2 prices
+- **ICE:** CO2 price and forecast
 
-![TFT Model Results](https://github.com/MrGG14/Electricity-Price-Forecast-TFT/blob/main/plots/predictions/test_tft.png))
+# API:
+- **ESIOS:** SPOT price, production and forecast of renewables (solar and wind), demand (and forecast), and residual demand.
 
-### Model Comparison
+## Modelling
+
+In this section, we present the various models employed to forecast electricity prices in the wholesale market. We explored both classical and deep learning approaches to identify the most accurate and robust model for our predictions.
+
+### Classical Models
+
+#### SARIMA and SARIMAX
+Seasonal Autoregressive Integrated Moving Average (SARIMA) and its extension with exogenous variables (SARIMAX) were among the classical models we tested. These models are well-suited for capturing seasonality and trends in time series data. We trained a SARIMAX model with the configuration SARIMAX(1,1,4)(1,0,0)[24], which provided a good fit to our data with a mean absolute error (MAE) of 7.13 on the validation set. However, the model exhibited limitations in capturing complex patterns beyond repetitive seasonal components.
+
+### Neural Network Models
+
+#### Long Short-Term Memory (LSTM)
+LSTM networks, a type of recurrent neural network (RNN), are effective for sequential data due to their ability to retain information over long periods. We implemented several LSTM architectures, starting with a basic model and progressing to more complex configurations with multiple LSTM layers and dense layers. The most effective LSTM model included dropout and regularization, achieving a promising MAE of 4.63 over a 7-day prediction horizon.
+
+#### Convolutional Neural Networks (CNN)
+We also experimented with 1D Convolutional Neural Networks (CNNs) to capture local patterns in the time series data. Starting with a simple model comprising a single convolutional layer with 16 filters followed by max pooling, we gradually increased the complexity. The best CNN model demonstrated decent performance, with a MAE of 4.98, indicating its potential for capturing significant features in the time series data.
+
+### State of the Art model: Temporal Fusion Transformers (TFT)
+
+To leverage the power of attention mechanisms, we employed Temporal Fusion Transformers (TFT). This state-of-the-art model excels in handling temporal dynamics and multi-horizon forecasting. Our TFT model achieved the lowest MAE of 1.1, making it the most accurate model among those evaluated. The TFT model's interpretability also provided valuable insights into the contributing factors of the forecasts, aiding strategic decision-making.
+
+
+## Model Comparison
 
 The following table summarizes the performance of the four models evaluated:
 
@@ -42,6 +78,18 @@ The following table summarizes the performance of the four models evaluated:
 | ARIMA                       | 10.8 |
 
 The study found that the Temporal Fusion Transformer (TFT) provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
+
+![Models Comparison](https://github.com/MrGG14/Electricity-Price-Forecast-TFT/assets/91123530/cee9a956-45e2-4ab1-99ab-30917b0846b3)
+
+
+## Results
+
+The study found that state-of-the-art models, particularly the Temporal Fusion Transformers (TFT), provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
+
+### TFT Model Results
+
+![TFT Model Results](https://github.com/MrGG14/Electricity-Price-Forecast-TFT/blob/main/plots/predictions/test_tft.png))
+
 
 ## Interpretability of the TFT Model
 
@@ -112,6 +160,7 @@ Below are visual representations of the attention mechanism and the importance o
 - `plots/`: Contains plots generated in the project. Contains both the results of the best TFT models and its interpretability plots.
 - `README.md`: This README file.
 - `tfg_etsiinf_NicolasVega`: Complete thesis.
+- `requirements.txt`: Necessary libraries to execute code. 
   
 ## How to Use
 
