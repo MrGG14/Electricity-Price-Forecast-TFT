@@ -43,6 +43,12 @@ The following table summarizes the performance of the four models evaluated:
 
 The study found that the Temporal Fusion Transformer (TFT) provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
 
+### Interpretability of the TFT Model
+
+The Temporal Fusion Transformer (TFT) model includes mechanisms for model interpretability, such as attention mechanisms that highlight the most important features influencing the predictions. This allows for a better understanding of the factors driving the SPOT price predictions and enables strategic decision-making based on these insights.
+
+Key insights from the TFT model include:
+
 ### Conclusions
 
 1. **Temporal Fusion Transformer (TFT)**: The TFT model outperformed other models with the lowest MAE, demonstrating its effectiveness in handling time series data for SPOT price prediction.
