@@ -13,7 +13,7 @@ authors:
     email: nicovegamunoz1@gmail.com
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.12207478
+    value: 10.5281/zenodo.10702189
   - type: url
     value: 'https://github.com/MrGG14/OpenScience'
 repository-code: 'https://github.com/MrGG14/Electricity-Price-Forecast-NN'
