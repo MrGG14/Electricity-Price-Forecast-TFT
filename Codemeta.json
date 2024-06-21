@@ -7,7 +7,7 @@
     "datePublished": "2024-06-03",
     "name": "Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks",
     "version": "3.0.0",
-    "identifier": "10.5281/zenodo.10702189",
+    "identifier": "10.5281/zenodo.12207478",
     "description": "This repository contains the code used for the Bachelor's Thesis titled 'Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks' by Nicolás Vega Muñoz. The thesis was submitted to the Escuela Técnica Superior de Ingenieros Informáticos at the Universidad Politécnica de Madrid in June 2024. The primary objective of this work is to develop a model capable of predicting the SPOT price (price per MWh) in the Spanish electricity market for each hour of the following day. This model aims to optimize market offers by providing accurate price forecasts, which are crucial for making informed decisions in a highly volatile energy market.",
     "applicationCategory": "Business",
     "keywords": [
