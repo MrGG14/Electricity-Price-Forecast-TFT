@@ -38,6 +38,11 @@ keywords:
   - Temporal Fusion Transformers
   - Electricity Price Forecast
   - Deep Learning
+  - LSTM
+  - CNN 1D
+  - Forecasting
+  - Spanish electricity market
+  - Mercado energetico español
 license: Apache-2.0
 version: '1'
 date-released: '2024-06-03'
