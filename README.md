@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the code and data used for the Bachelor's Thesis titled "Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks" by Nicolás Vega Muñoz. The thesis was submitted to the Escuela Técnica Superior de Ingenieros Informáticos at the Universidad Politécnica de Madrid in June 2024.
+This repository contains the code used for the Bachelor's Thesis titled "Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks" by Nicolás Vega Muñoz. The thesis was submitted to the Escuela Técnica Superior de Ingenieros Informáticos at the Universidad Politécnica de Madrid in June 2024.
 
 The primary objective of this work is to develop a model capable of predicting the SPOT price (price per MWh) in the Spanish electricity market for each hour of the following day. This model aims to optimize market offers by providing accurate price forecasts, which are crucial for making informed decisions in a highly volatile energy market.
 
@@ -51,19 +51,20 @@ The study found that the Temporal Fusion Transformer (TFT) provided the most acc
 4. **ARIMA**: The ARIMA model had the highest MAE, indicating that traditional statistical methods are less effective for this type of prediction task compared to modern deep learning approaches.
 
 ## Repository Structure
-
-- `data/`: Contains the datasets used for training and testing the models.
-- `models/`: Contains the implementation of the different models evaluated in this study.
-- `notebooks/`: Jupyter notebooks used for data analysis, model training, and evaluation.
-- `results/`: Contains the results of the model comparisons and analysis.
+- `old/`: Old, unused files.
+- `src`: Main folder where EDA, modelling and experiments are implemented. 
+- `src/models/`: Contains the implementation of the ARIMA, LSTM and CNN models evaluated in this study.
+- `predictions/`: Contains the results of the best TFT models and the test predictions.
 - `README.md`: This README file.
-
+- `tfg_etsiinf_NicolasVega`: Complete thesis.
+  
 ## How to Use
 
 1. **Clone the repository**:
    ```sh
    git clone https://github.com/yourusername/forecasting-spot-price.git
    ```
+2. **Install requirements**
    ```
    pip install -r requirements.txt
    ```
