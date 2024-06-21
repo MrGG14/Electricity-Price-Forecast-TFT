@@ -1,51 +1,120 @@
-# Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks
+Skip to content
+Navigation Menu
+MrGG14
+/
+Electricity-Price-Forecast-NN
 
-## Overview
+Type / to search
 
-This repository contains the code used for the Bachelor's Thesis titled "Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks" by Nicolás Vega Muñoz. The thesis was submitted to the Escuela Técnica Superior de Ingenieros Informáticos at the Universidad Politécnica de Madrid in June 2024.
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+Editing README.md in Electricity-Price-Forecast-NN
+BreadcrumbsElectricity-Price-Forecast-NN
+/
+README.md
+in
+main
 
-The primary objective of this work is to develop a model capable of predicting the SPOT price (price per MWh) in the Spanish electricity market for each hour of the following day. This model aims to optimize market offers by providing accurate price forecasts, which are crucial for making informed decisions in a highly volatile energy market.
+Edit
 
-## Objectives
+Preview
+Indent mode
 
-- **Accurate Prediction**: Develop a model to predict the SPOT price with high accuracy.
-- **Model Comparison**: Evaluate and compare various models, including classical methods and state-of-the-art deep learning models like Temporal Fusion Transformers (TFT).
-- **Strategic Advantage**: Provide a strategic advantage for operating in the daily electricity market through improved prediction accuracy and optimized energy offer management.
-- **Model Interpretability**: Highlight the importance of model interpretability for strategic decision-making.
+Spaces
+Indent size
 
-## Methodology
+2
+Line wrap mode
 
-The methodology applied in this work includes the following steps:
-
-1. **Data Acquisition**: Collect and preprocess data relevant to the Spanish electricity market.
-2. **Modeling**: Develop various models, including both classical and deep learning approaches.
-3. **Model Comparison**: Compare the performance of different models based on metrics such as Mean Absolute Error (MAE).
-4. **Results Analysis**: Analyze the results to identify the best-performing model and its potential impact on the market.
-
-## Results
-
-The study found that state-of-the-art models, particularly the Temporal Fusion Transformers (TFT), provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
-
-### TFT Model Results
-
-![TFT Model Results](https://github.com/MrGG14/Electricity-Price-Forecast-NN/blob/main/predictions/test_tft.png)
-
-### Model Comparison
-
-The following table summarizes the performance of the four models evaluated:
-
-| Model                       | MAE  |
-|-----------------------------|------|
-| Temporal Fusion Transformer | 1.26 |
-| LSTM                        | 4.63 |
-| CNN + LSTM                  | 4.98 |
-| ARIMA                       | 10.8 |
-
-The study found that the Temporal Fusion Transformer (TFT) provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
-
-## Interpretability of the TFT Model
-
-The Temporal Fusion Transformer (TFT) model includes several mechanisms for enhancing interpretability, making it easier to understand the factors driving the SPOT price predictions. These mechanisms are crucial for strategic decision-making in the energy market.
+Soft wrap
+Editing README.md file contents
+Selection deleted
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
 
 ### Key Mechanisms for Interpretability
 
@@ -65,10 +134,27 @@ The Temporal Fusion Transformer (TFT) model includes several mechanisms for enha
 
 Key insights from the TFT model include the identification of the most relevant variables influencing the SPOT price predictions:
 
-- **CO2 Levels**: One of the most significant features, indicating a strong correlation between carbon dioxide emissions and electricity prices.
-- **Previous Day's SPOT Price**: This variable is highly influential, showing that past prices are a strong predictor of future prices.
-- **Total Energy Demand**: Reflects the overall consumption and significantly impacts price predictions.
-- **Renewable Energy Production**: The amount of energy generated from renewable sources also plays a crucial role in forecasting prices.
+- **Demanda Residual**: The most significant feature, indicating a strong correlation between residual demand and electricity prices.
+- **Precio SPOT Lagged by 72 Hours**: Highly influential, showing that past prices from three days prior are a strong predictor of future prices.
+- **Relative Time Index**: Important for capturing temporal patterns and trends.
+- **CO2 Levels**: Reflects the impact of carbon emissions on price fluctuations.
+- **Renewable Energy Production**: Includes solar and wind energy production, highlighting their roles in influencing price predictions.
+
+### Visual Insights
+
+Below are visual representations of the attention mechanism and the importance of various decoder variables, which provide deeper insights into the interpretability of the TFT model:
+
+#### Attention Mechanism
+![Attention Mechanism](https://github.com/MrGG14/Electricity-Price-Forecast-TFT/blob/main/plots/tft_inerpretability/attenttion_interpr.png)
+
+#### Encoder Variable Importance
+![Encoder Variable Importance](https://github.com/MrGG14/Electricity-Price-Forecast-TFT/blob/main/plots/tft_inerpretability/decoder_intr.png)
+
+#### Decoder Variable Importance
+![Decoder Variable Importance](https://github.com/MrGG14/Electricity-Price-Forecast-TFT/blob/main/plots/tft_inerpretability/decoder_intr.png)
+
+#### Static Variable Importance
+![Static Variable Importance](https://github.com/MrGG14/Electricity-Price-Forecast-TFT/blob/main/plots/tft_inerpretability/decoder_intr.png)
 
 ### Conclusions on Interpretability
 
@@ -79,9 +165,7 @@ Key insights from the TFT model include the identification of the most relevant 
    - By highlighting the most important features and their relationships, the model provides actionable insights that can lead to more effective and strategic energy offer management.
 
 3. **Transparency and Trust**:
-   - The transparent nature of the TFT model's predictions fosters trust among users, as they can see and understand the factors influencing the model's output. This is essential for the adoption and integration of the model in real-world applications.
-
-Overall, the TFT model not only achieves high prediction accuracy but also provides significant interpretability, making it a powerful tool for forecasting SPOT prices in the Spanish electricity market.
+   - The transparent nature of the TFT model's predictions fosters trust among users, as they can see and understand the factors influencing the model
 
 ### Conclusions
 
@@ -94,7 +178,7 @@ Overall, the TFT model not only achieves high prediction accuracy but also provi
 - `old/`: Old, unused files.
 - `src`: Main folder where EDA, modelling and experiments are implemented. 
 - `src/models/`: Contains the implementation of the ARIMA, LSTM and CNN models evaluated in this study.
-- `predictions/`: Contains the results of the best TFT models and the test predictions.
+- `plots/`: Contains plots generated in the project. Contains both the results of the best TFT models and its interpretability plots.
 - `README.md`: This README file.
 - `tfg_etsiinf_NicolasVega`: Complete thesis.
   
@@ -102,7 +186,7 @@ Overall, the TFT model not only achieves high prediction accuracy but also provi
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/yourusername/forecasting-spot-price.git
+   git clone https://github.com/MrGG14/Electricity-Price-Forecast-TFT
    ```
 2. **Install requirements**
    ```
@@ -110,3 +194,8 @@ Overall, the TFT model not only achieves high prediction accuracy but also provi
    ```
 ## Acknowledgements
 This work was supervised by Bojan Mihaljevic at the Department of Artificial Intelligence, Escuela Técnica Superior de Ingenieros Informáticos, Universidad Politécnica de Madrid.
+
+Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to the next interactive element on the page.
+Ningún archivo seleccionado
+Attach files by dragging & dropping, selecting or pasting them.
+Editing Electricity-Price-Forecast-NN/README.md at main · MrGG14/Electricity-Price-Forecast-NN 
