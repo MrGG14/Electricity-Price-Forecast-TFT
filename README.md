@@ -41,12 +41,14 @@ The following table summarizes the performance of the four models evaluated:
 | CNN + LSTM                  | 4.98 |
 | ARIMA                       | 10.8 |
 
+The study found that the Temporal Fusion Transformer (TFT) provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
+
 ### Conclusions
 
 1. **Temporal Fusion Transformer (TFT)**: The TFT model outperformed other models with the lowest MAE, demonstrating its effectiveness in handling time series data for SPOT price prediction.
-2. **Model 2**: [Insert conclusions about Model 2].
-3. **Model 3**: [Insert conclusions about Model 3].
-4. **Model 4**: [Insert conclusions about Model 4].
+2. **LSTM**: The LSTM model, while effective, had a higher MAE compared to TFT, indicating less accuracy in predicting SPOT prices.
+3. **CNN + LSTM**: Combining CNN with LSTM did not significantly improve accuracy over standalone LSTM, showing that more complexity doesn't always lead to better performance.
+4. **ARIMA**: The ARIMA model had the highest MAE, indicating that traditional statistical methods are less effective for this type of prediction task compared to modern deep learning approaches.
 
 ## Repository Structure
 
@@ -61,3 +63,9 @@ The following table summarizes the performance of the four models evaluated:
 1. **Clone the repository**:
    ```sh
    git clone https://github.com/yourusername/forecasting-spot-price.git
+   ```
+   ```
+   pip install -r requirements.txt
+   ```
+## Acknowledgements
+This work was supervised by Bojan Mihaljevic at the Department of Artificial Intelligence, Escuela Técnica Superior de Ingenieros Informáticos, Universidad Politécnica de Madrid.
