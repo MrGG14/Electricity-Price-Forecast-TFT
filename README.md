@@ -126,7 +126,4 @@ Below are visual representations of the attention mechanism and the importance o
 ## Acknowledgements
 This work was supervised by Bojan Mihaljevic at the Department of Artificial Intelligence, Escuela Técnica Superior de Ingenieros Informáticos, Universidad Politécnica de Madrid.
 
-Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to the next interactive element on the page.
-Ningún archivo seleccionado
-Attach files by dragging & dropping, selecting or pasting them.
-Editing Electricity-Price-Forecast-NN/README.md at main · MrGG14/Electricity-Price-Forecast-NN 
+
