@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the code and data used for the Bachelor's Thesis titled "Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks" by Nicolás Vega Muñoz. The thesis was submitted to the Escuela Técnica Superior de Ingenieros Informáticos at the Universidad Politécnica de Madrid in June 2024.
+This repository contains the code used for the Bachelor's Thesis titled "Forecasting SPOT Price in the Spanish Electricity Market using Neural Networks" by Nicolás Vega Muñoz. The thesis was submitted to the Escuela Técnica Superior de Ingenieros Informáticos at the Universidad Politécnica de Madrid in June 2024.
 
 The primary objective of this work is to develop a model capable of predicting the SPOT price (price per MWh) in the Spanish electricity market for each hour of the following day. This model aims to optimize market offers by providing accurate price forecasts, which are crucial for making informed decisions in a highly volatile energy market.
 
@@ -28,7 +28,7 @@ The study found that state-of-the-art models, particularly the Temporal Fusion T
 
 ### TFT Model Results
 
-![TFT Model Results](path/to/tft_model_results.png)
+![TFT Model Results](https://github.com/MrGG14/Electricity-Price-Forecast-NN/blob/main/predictions/test_tft.png)
 
 ### Model Comparison
 
@@ -41,23 +41,72 @@ The following table summarizes the performance of the four models evaluated:
 | CNN + LSTM                  | 4.98 |
 | ARIMA                       | 10.8 |
 
+The study found that the Temporal Fusion Transformer (TFT) provided the most accurate predictions with a Mean Absolute Error (MAE) of 1.26. The implementation of this model is intended to improve prediction accuracy and optimize energy offer management, helping companies to bid more competitively and efficiently.
+
+## Interpretability of the TFT Model
+
+The Temporal Fusion Transformer (TFT) model includes several mechanisms for enhancing interpretability, making it easier to understand the factors driving the SPOT price predictions. These mechanisms are crucial for strategic decision-making in the energy market.
+
+### Key Mechanisms for Interpretability
+
+1. **Variable Selection Networks**:
+   - The TFT model uses variable selection networks at the instance level, selecting the most relevant variables for each prediction. This helps eliminate noisy inputs and highlights the most significant variables for making predictions.
+
+2. **Interpretable Multi-Head Attention**:
+   - The model incorporates a modified multi-head attention mechanism to learn long-term dependencies across different time points. This attention mechanism is designed to be interpretable, allowing each attention head to learn different temporal patterns while analyzing a common set of input features.
+
+3. **Static Covariate Encoders**:
+   - These encoders transform static variables into contextual representations used throughout the prediction process. Incorporating static information allows the TFT to make more accurate and contextually relevant predictions, enhancing interpretability.
+
+4. **Temporal Fusion Decoder**:
+   - The decoder includes layers that focus on learning temporal relationships within the data. For instance, the locality enhancement with a sequence-to-sequence layer helps identify significant values in relation to their neighboring values, useful for detecting anomalies, inflection points, and cyclical patterns.
+
+### Importance of Variables
+
+Key insights from the TFT model include the identification of the most relevant variables influencing the SPOT price predictions:
+
+- **CO2 Levels**: One of the most significant features, indicating a strong correlation between carbon dioxide emissions and electricity prices.
+- **Previous Day's SPOT Price**: This variable is highly influential, showing that past prices are a strong predictor of future prices.
+- **Total Energy Demand**: Reflects the overall consumption and significantly impacts price predictions.
+- **Renewable Energy Production**: The amount of energy generated from renewable sources also plays a crucial role in forecasting prices.
+
+### Conclusions on Interpretability
+
+1. **Understanding Key Drivers**:
+   - The TFT model's interpretability mechanisms allow for a detailed understanding of the key drivers behind SPOT price predictions. This is particularly important for stakeholders who need to make informed strategic decisions based on these predictions.
+
+2. **Enhanced Decision-Making**:
+   - By highlighting the most important features and their relationships, the model provides actionable insights that can lead to more effective and strategic energy offer management.
+
+3. **Transparency and Trust**:
+   - The transparent nature of the TFT model's predictions fosters trust among users, as they can see and understand the factors influencing the model's output. This is essential for the adoption and integration of the model in real-world applications.
+
+Overall, the TFT model not only achieves high prediction accuracy but also provides significant interpretability, making it a powerful tool for forecasting SPOT prices in the Spanish electricity market.
+
 ### Conclusions
 
 1. **Temporal Fusion Transformer (TFT)**: The TFT model outperformed other models with the lowest MAE, demonstrating its effectiveness in handling time series data for SPOT price prediction.
-2. **Model 2**: [Insert conclusions about Model 2].
-3. **Model 3**: [Insert conclusions about Model 3].
-4. **Model 4**: [Insert conclusions about Model 4].
+2. **LSTM**: The LSTM model, while effective, had a higher MAE compared to TFT, indicating less accuracy in predicting SPOT prices.
+3. **CNN + LSTM**: Combining CNN with LSTM did not significantly improve accuracy over standalone LSTM, showing that more complexity doesn't always lead to better performance.
+4. **ARIMA**: The ARIMA model had the highest MAE, indicating that traditional statistical methods are less effective for this type of prediction task compared to modern deep learning approaches.
 
 ## Repository Structure
-
-- `data/`: Contains the datasets used for training and testing the models.
-- `models/`: Contains the implementation of the different models evaluated in this study.
-- `notebooks/`: Jupyter notebooks used for data analysis, model training, and evaluation.
-- `results/`: Contains the results of the model comparisons and analysis.
+- `old/`: Old, unused files.
+- `src`: Main folder where EDA, modelling and experiments are implemented. 
+- `src/models/`: Contains the implementation of the ARIMA, LSTM and CNN models evaluated in this study.
+- `predictions/`: Contains the results of the best TFT models and the test predictions.
 - `README.md`: This README file.
-
+- `tfg_etsiinf_NicolasVega`: Complete thesis.
+  
 ## How to Use
 
 1. **Clone the repository**:
    ```sh
    git clone https://github.com/yourusername/forecasting-spot-price.git
+   ```
+2. **Install requirements**
+   ```
+   pip install -r requirements.txt
+   ```
+## Acknowledgements
+This work was supervised by Bojan Mihaljevic at the Department of Artificial Intelligence, Escuela Técnica Superior de Ingenieros Informáticos, Universidad Politécnica de Madrid.
