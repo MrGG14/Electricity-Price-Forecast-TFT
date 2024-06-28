@@ -227,7 +227,10 @@ def save_exp_results(
     new_exp = {"model_name": model_name, "loss": loss, "epochs": epochs}
     new_exp.update(tft_params)
     tft_exps = tft_exps.append(new_exp, ignore_index=True)
-
+    tft_exps['loss'] = tft_exps['loss'].map(lambda x: f'{x:.{3}f}')
+    tft_exps['gradient_clip_val'] = tft_exps['gradient_clip_val'].map(lambda x: f'{x:.{2}f}')
+    tft_exps['dropout'] = tft_exps['dropout'].map(lambda x: f'{x:.{2}f}')
+    tft_exps['learning_rate'] = tft_exps['learning_rate'].map(lambda x: f'{x:.{3}f}')
     tft_exps.sort_values(by="loss", ascending=True, inplace=True)
     tft_exps = tft_exps.reset_index(drop=True)
 
