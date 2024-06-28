@@ -7,6 +7,8 @@ This repository contains the code used for the Bachelor's Thesis titled "Forecas
 
 The primary objective of this work is to develop a model capable of predicting the SPOT price (price per MWh) in the Spanish electricity market for each hour of the following day. This model aims to optimize market offers by providing accurate price forecasts, which are crucial for making informed decisions in a highly volatile energy market.
 
+**Note:** The dataset used in this project is not published due to a confidentiality agreement.
+
 ## Objectives
 
 - **Accurate Prediction**: Develop a model to predict the SPOT price with high accuracy.
