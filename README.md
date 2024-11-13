@@ -43,7 +43,7 @@ The variables used are:
 - **Sendeco2:** Historical CO2 prices
 - **ICE:** CO2 price and forecast
 
-# API:
+# API
 - **ESIOS:** SPOT price, production and forecast of renewables (solar and wind), demand (and forecast), and residual demand.
 
 ## Modelling
